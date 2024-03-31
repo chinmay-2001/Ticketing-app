@@ -10,12 +10,15 @@ import cookieSession from "cookie-session";
 import "express-async-errors";
 import mongoose from "mongoose";
 const app = express();
+const keys = ["dummy-key"];
 
-// app.set("trust proxy", true);
+app.set("trust proxy", true);
 app.use(json());
 app.use(
   cookieSession({
+    keys: keys,
     signed: false,
+    secure: true,
   })
 );
 app.use(currentUserRouter);
@@ -29,17 +32,18 @@ app.all("*", async (req, res) => {
 
 app.use(errorHandler);
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY not Defined");
+  }
   try {
-    await mongoose.connect(
-      "mongodb+srv://chinmay:chinmay2001*@atlascluster.qla0xds.mongodb.net/auth?retryWrites=true&w=majority"
-    );
-    console.log("connected to mongodb");
+    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+    console.log("connected to mongodbd");
   } catch (err) {
     console.log("err:", err);
   }
 };
 
 app.listen(3000, () => {
-  console.log("listening on port 3000!");
+  console.log("listening on port 3000!!!!!!");
 });
 start();

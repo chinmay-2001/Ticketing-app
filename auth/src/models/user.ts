@@ -21,16 +21,28 @@ interface UserDoc extends mongoose.Document {
   password: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      requierd: true,
+    },
   },
-  password: {
-    type: String,
-    requierd: true,
-  },
-});
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        delete ret.__v;
+      },
+    },
+  }
+);
 
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
@@ -47,9 +59,4 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 };
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
-
 export { User };
-
-//127.0.0.1 ticketing.dev
-// Set-ExecutionPolicy Bypass -Scope Process.
-// Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))

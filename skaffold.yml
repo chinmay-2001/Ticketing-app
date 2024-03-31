@@ -1,14 +1,13 @@
-apiVersion: skaffold/v2aplha3
+apiVersion: skaffold/v4beta3
 kind: Config
-deploy:
-  kubectl:
-    manifests:
-      - ./infra/k8s*
+manifests:
+  rawYaml:
+    - ./infra/k8s*
 build:
   local:
     push: false
   artifacts:
-    - image: chinmay/auth
+    - image: chinmay200102/auth
       context: auth
       docker:
         dockerfile: Dockerfile
