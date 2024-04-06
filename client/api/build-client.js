@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default ({ req }) => {
+  console.log("here");
   if (typeof window === "undefined") {
     //we are on server
 
