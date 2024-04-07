@@ -1,10 +1,14 @@
 import express from "express";
 import { json } from "body-parser";
-import { currentUserRouter } from "./routes/current-user";
-import { signoutRouter } from "./routes/signout";
-import { signinRouter } from "./routes/signin";
-import { signupRouter } from "./routes/signup";
-import { errorHandler, NotFoundError } from "@chinmayticketsinno/common";
+import {
+  errorHandler,
+  NotFoundError,
+  currentUser,
+} from "@chinmayticketsinno/common";
+import { createTicketRouter } from "./routes/new";
+import { showTicketRouter } from "./routes/show";
+import { indexTicketRouter } from "./routes";
+import { updateTicketRouter } from "./routes/update";
 
 import cookieSession from "cookie-session";
 import "express-async-errors";
@@ -21,10 +25,11 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
-app.use(currentUserRouter);
-app.use(signoutRouter);
-app.use(signinRouter);
-app.use(signupRouter);
+app.use(currentUser);
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
