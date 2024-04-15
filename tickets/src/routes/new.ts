@@ -4,6 +4,9 @@ import { requireAuth, validateRequest } from "@chinmayticketsinno/common";
 import { Ticket } from "../models/tickets";
 import { body } from "express-validator";
 
+import { TicketCreatedPublisher } from "../events/publisher/ticket-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
+
 router.post(
   "/api/tickets",
   requireAuth,
@@ -22,6 +25,12 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
+    new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      userId: ticket.userId,
+      price: ticket.price,
+    });
     res.status(201).send(ticket);
   }
 );
