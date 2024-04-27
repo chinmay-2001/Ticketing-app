@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: chinmay200102/auth
+          image: us.gcr.io/ticketing-dev-420820/auth
           env:
             - name: MONGO_URI
               value: "mongodb://auth-mongo-srv:27017/auth"

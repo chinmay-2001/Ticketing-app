@@ -8,8 +8,10 @@ import {
   requireAuth,
   NotAuthorizeError,
 } from "@chinmayticketsinno/common";
+import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
 
 import { Ticket } from "../models/tickets";
+import { natsWrapper } from "../nats-wrapper";
 
 router.put(
   "/api/tickets/:id",
@@ -35,6 +37,12 @@ router.put(
     });
 
     await ticket.save();
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.send(ticket);
   }

@@ -4,10 +4,12 @@ manifests:
   rawYaml:
     - ./infra/k8s*
 build:
-  local:
-    push: false
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: ticketing-dev-420820
   artifacts:
-    - image: chinmay200102/auth
+    - image: us.gcr.io/ticketing-dev-420820/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -15,7 +17,7 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    - image: chinmay200102/client
+    - image: us.gcr.io/ticketing-dev-420820/client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -23,7 +25,7 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
-    - image: chinmay200102/tickets
+    - image: us.gcr.io/ticketing-dev-420820/tickets
       context: tickets
       docker:
         dockerfile: Dockerfile
@@ -31,3 +33,12 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: us.gcr.io/ticketing-dev-420820/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+
