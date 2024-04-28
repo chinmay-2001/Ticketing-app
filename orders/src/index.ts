@@ -1,6 +1,9 @@
 import { app } from "./app";
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper";
+import { TicketCreatedListner } from "../events/listeners/ticket-created-listener";
+
+import { TicketUpdatedListner } from "../events/listeners/ticket-updated-listner";
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY not Defined");
@@ -18,13 +21,19 @@ const start = async () => {
     throw new Error("NATS_CLUSTER_ID must be defined");
   }
   try {
-    await natsWrapper.connect(process.env.NATS_CLUSTER_ID, process.env.NATS_CLIENT_ID, process.env.NATS_URL);
+    await natsWrapper.connect(
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
+    );
     natsWrapper.client.on("close", () => {
       console.log("NATS connection closed!");
       process.exit();
     });
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+    new TicketCreatedListner(natsWrapper.client).listen();
+    new TicketUpdatedListner(natsWrapper.client).listen();
     await mongoose.connect(process.env.MONGO_URI);
     console.log("connected to mongodbd");
   } catch (err) {
