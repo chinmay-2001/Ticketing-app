@@ -2,7 +2,11 @@ import { Stan } from "node-nats-streaming";
 import { Subject } from "./subjects";
 import { convertToObject } from "typescript";
 interface Event {
-  subject: Subject.TicketCreated | Subject.TicketUpdate;
+  subject:
+    | Subject.TicketCreated
+    | Subject.TicketUpdate
+    | Subject.OrderCreated
+    | Subject.orderCancelled;
   data: any;
 }
 export abstract class Publisher<T extends Event> {
