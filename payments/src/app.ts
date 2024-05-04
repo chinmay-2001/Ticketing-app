@@ -1,0 +1,31 @@
+import express from "express";
+import { json } from "body-parser";
+import {
+	errorHandler,
+	NotFoundError,
+	currentUser,
+} from "@chinmayticketsinno/common";
+
+import cookieSession from "cookie-session";
+import "express-async-errors";
+
+const app = express();
+const keys = ["dummy-key"];
+
+app.set("trust proxy", true);
+app.use(json());
+app.use(
+	cookieSession({
+		keys: keys,
+		signed: false,
+		secure: process.env.NODE_ENV !== "test",
+	})
+);
+
+app.all("*", async (req, res) => {
+	throw new NotFoundError();
+});
+
+app.use(errorHandler);
+
+export { app };

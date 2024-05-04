@@ -2,6 +2,7 @@ import { app } from "./app";
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper";
 import { TicketCreatedListner } from "../events/listeners/ticket-created-listener";
+import { ExpirationCompleteListner } from "../events/listeners/expiration-complete-listener";
 
 import { TicketUpdatedListner } from "../events/listeners/ticket-updated-listner";
 const start = async () => {
@@ -34,6 +35,7 @@ const start = async () => {
     process.on("SIGTERM", () => natsWrapper.client.close());
     new TicketCreatedListner(natsWrapper.client).listen();
     new TicketUpdatedListner(natsWrapper.client).listen();
+    new ExpirationCompleteListner(natsWrapper.client).listen();
     await mongoose.connect(process.env.MONGO_URI);
     console.log("connected to mongodbd");
   } catch (err) {
