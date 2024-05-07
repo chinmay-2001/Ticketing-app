@@ -7,7 +7,8 @@ interface Event {
 		| Subject.TicketUpdate
 		| Subject.OrderCreated
 		| Subject.orderCancelled
-		| Subject.ExpirationComplete;
+		| Subject.ExpirationComplete
+		| Subject.PaymentCreated;
 	data: any;
 }
 export abstract class Publisher<T extends Event> {
