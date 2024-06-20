@@ -5,6 +5,7 @@ import {
 	NotFoundError,
 	currentUser,
 } from "@chinmayticketsinno/common";
+import { createChargeRouter } from "./routes/new";
 
 import cookieSession from "cookie-session";
 import "express-async-errors";
@@ -21,6 +22,7 @@ app.use(
 		secure: process.env.NODE_ENV !== "test",
 	})
 );
+app.use(createChargeRouter);
 
 app.all("*", async (req, res) => {
 	throw new NotFoundError();

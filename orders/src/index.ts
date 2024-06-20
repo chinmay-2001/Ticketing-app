@@ -5,6 +5,7 @@ import { TicketCreatedListner } from "../events/listeners/ticket-created-listene
 import { ExpirationCompleteListner } from "../events/listeners/expiration-complete-listener";
 
 import { TicketUpdatedListner } from "../events/listeners/ticket-updated-listner";
+import { PaymentCreatedListener } from "../events/listeners/payment-created-listener";
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY not Defined");
@@ -36,6 +37,7 @@ const start = async () => {
     new TicketCreatedListner(natsWrapper.client).listen();
     new TicketUpdatedListner(natsWrapper.client).listen();
     new ExpirationCompleteListner(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
     await mongoose.connect(process.env.MONGO_URI);
     console.log("connected to mongodbd");
   } catch (err) {
