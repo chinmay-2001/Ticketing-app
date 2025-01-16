@@ -1,12 +1,15 @@
 {
   "name": "@ticketsappchinmay/common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
     "build/**/*"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "clean": "del-cli ./build/*",
     "build": " npm run clean && tsc",
