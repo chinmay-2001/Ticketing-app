@@ -2,7 +2,7 @@ import {
   NotAuthorizeError,
   NotFoundError,
   requireAuth,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import experss, { Request, Response } from "express";
 const router = experss.Router();
 import { Order } from "../models/order";

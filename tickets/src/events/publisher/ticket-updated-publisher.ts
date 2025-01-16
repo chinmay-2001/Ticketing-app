@@ -1,5 +1,9 @@
-import {Publisher , Subject , TicketUpdatedEvent} from '@chinmayticketsinno/common';
+import {
+  Publisher,
+  Subject,
+  TicketUpdatedEvent,
+} from "@ticketsappchinmay/common";
 
 export class TicketUpdatedPublisher extends Publisher<TicketUpdatedEvent> {
-    subject: Subject.TicketUpdate = Subject.TicketUpdate;
+  subject: Subject.TicketUpdate = Subject.TicketUpdate;
 }

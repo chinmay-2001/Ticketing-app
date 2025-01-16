@@ -1,6 +1,6 @@
 import experss, { Request, Response } from "express";
 import { Order } from "../models/order";
-import { requireAuth } from "@chinmayticketsinno/common";
+import { requireAuth } from "@ticketsappchinmay/common";
 const router = experss.Router();
 
 router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {

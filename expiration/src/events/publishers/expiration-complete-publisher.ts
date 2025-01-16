@@ -1,9 +1,9 @@
 import {
-	Subject,
-	Publisher,
-	ExpirationCompleteEvent,
-} from "@chinmayticketsinno/common";
+  Subject,
+  Publisher,
+  ExpirationCompleteEvent,
+} from "@ticketsappchinmay/common";
 
 export class ExpirationCompletePublisher extends Publisher<ExpirationCompleteEvent> {
-	subject: Subject.ExpirationComplete = Subject.ExpirationComplete;
+  subject: Subject.ExpirationComplete = Subject.ExpirationComplete;
 }

@@ -3,7 +3,7 @@ import {
   Subject,
   listener,
   TicketCreatedEvent,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import { queueGroupName } from "./queue-group-name";
 
 import { Ticket } from "../../src/models/tickets";

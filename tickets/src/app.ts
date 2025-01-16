@@ -4,7 +4,7 @@ import {
   errorHandler,
   NotFoundError,
   currentUser,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from "./routes/show";
 import { indexTicketRouter } from "./routes";

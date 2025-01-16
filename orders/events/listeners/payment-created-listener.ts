@@ -2,11 +2,11 @@ import {
   Subject,
   listener,
   PaymentCreatedEvent,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
 import { Order } from "../../src/models/order";
-import { OrderStatus } from "@chinmayticketsinno/common";
+import { OrderStatus } from "@ticketsappchinmay/common";
 
 export class PaymentCreatedListener extends listener<PaymentCreatedEvent> {
   queueGroupName: string = queueGroupName;

@@ -1,9 +1,9 @@
 import {
-	Subject,
-	Publisher,
-	PaymentCreatedEvent,
-} from "@chinmayticketsinno/common";
+  Subject,
+  Publisher,
+  PaymentCreatedEvent,
+} from "@ticketsappchinmay/common";
 
 export class PaymentCreatedPublisher extends Publisher<PaymentCreatedEvent> {
-	subject: Subject.PaymentCreated = Subject.PaymentCreated;
+  subject: Subject.PaymentCreated = Subject.PaymentCreated;
 }

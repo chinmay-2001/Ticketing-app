@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/tickets";
 
-import { NotFoundError } from "@chinmayticketsinno/common";
+import { NotFoundError } from "@ticketsappchinmay/common";
 
 const router = express.Router();
 router.get("/api/tickets", async (req: Request, res: Response) => {

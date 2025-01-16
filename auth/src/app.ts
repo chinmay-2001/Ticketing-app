@@ -4,7 +4,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { signoutRouter } from "./routes/signout";
 import { signinRouter } from "./routes/signin";
 import { signupRouter } from "./routes/signup";
-import { errorHandler, NotFoundError } from "@chinmayticketsinno/common";
+import { errorHandler, NotFoundError } from "@ticketsappchinmay/common";
 
 import cookieSession from "cookie-session";
 import "express-async-errors";

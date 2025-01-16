@@ -4,7 +4,8 @@ import {
   errorHandler,
   NotFoundError,
   currentUser,
-} from "@chinmayticketsinno/common";
+  BadRequestError,
+} from "@ticketsappchinmay/common";
 import { deleteOrderRouter } from "./routes/delete";
 import { indexOrderRouter } from "./routes/index";
 import { showOrderRouter } from "./routes/show";
@@ -22,9 +23,13 @@ app.use(
   cookieSession({
     keys: keys,
     signed: false,
-    secure: process.env.NODE_ENV !== "test",
+    secure: false,
   })
 );
+// app.get("/api/orders/test-error", (req, res) => {
+//   throw new BadRequestError("Test Error");
+// });
+
 app.use(currentUser);
 app.use(deleteOrderRouter);
 app.use(showOrderRouter);

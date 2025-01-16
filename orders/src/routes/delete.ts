@@ -5,7 +5,7 @@ import {
   NotAuthorizeError,
   NotFoundError,
   requireAuth,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import { OrderCancelledPublisher } from "../../events/publishers/order-cancelled-publisher";
 import { natsWrapper } from "../nats-wrapper";
 

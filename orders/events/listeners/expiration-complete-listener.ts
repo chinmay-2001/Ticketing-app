@@ -3,7 +3,7 @@ import {
   Subject,
   listener,
   OrderStatus,
-} from "@chinmayticketsinno/common";
+} from "@ticketsappchinmay/common";
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
 import { Order } from "../../src/models/order";
