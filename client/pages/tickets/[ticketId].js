@@ -15,7 +15,7 @@ const TicketShow = ({ ticket }) => {
       <h1>{ticket.title}</h1>
       <h4>Price:{ticket.price}</h4>
       {errors}
-      <button className="btn btn-primary" onClick={doRequest}>
+      <button className="btn btn-primary" onClick={() => doRequest()}>
         Purchase
       </button>
     </div>
@@ -24,9 +24,7 @@ const TicketShow = ({ ticket }) => {
 
 TicketShow.getInitialProps = async (context, client) => {
   const { ticketId } = context.query;
-  // console.log(ticketId);
   const { data } = await client.get(`/api/tickets/${ticketId}`);
-  // console.log(data);
   return { ticket: data };
 };
 export default TicketShow;

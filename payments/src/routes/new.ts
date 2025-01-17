@@ -15,6 +15,7 @@ import { Payment } from "../models/payment";
 import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
 const router = express.Router();
+import "express-async-errors";
 router.post(
   "/api/payments",
   requireAuth,
