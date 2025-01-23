@@ -19,7 +19,6 @@ export const currentUser = (
   next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
-  console.log(req.headers);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return next(); // No token provided; proceed without attaching `currentUser`
   }
