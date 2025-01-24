@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import useRequest from "../../hooks/user-request";
 import Router from "next/router";
+import buildClient from "../../api/build-client";
 const OrderShow = ({ order, currentUser }) => {
   const { doRequest, errors } = useRequest({
     url: "/api/payments",
@@ -41,10 +42,14 @@ const OrderShow = ({ order, currentUser }) => {
   );
 };
 
-OrderShow.getInitialProps = async (useContext, client) => {
-  const { orderId } = useContext.query;
+export async function getServerSideProps(context) {
+  const client = buildClient(context);
+  const {
+    data: { currentUser },
+  } = await client.get("/api/users/currentuser");
+  const { orderId } = context.query;
   const { data } = await client.get(`/api/orders/${orderId}`);
-  return { order: data };
-};
+  return { props: { order: data, currentUser: currentUser } };
+}
 
 export default OrderShow;

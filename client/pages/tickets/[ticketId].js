@@ -1,5 +1,6 @@
 import useRequest from "../../hooks/user-request";
 import Router from "next/router";
+import buildClient from "../../api/build-client";
 const TicketShow = ({ ticket }) => {
   const { doRequest, errors } = useRequest({
     url: "/api/orders",
@@ -22,9 +23,25 @@ const TicketShow = ({ ticket }) => {
   );
 };
 
-TicketShow.getInitialProps = async (context, client) => {
+// TicketShow.getInitialProps = async (context) => {
+//   console.log("here");
+//   // const { ticketId } = context.query;
+//   // const { data } = await client.get(`/api/tickets/${ticketId}`);
+//   return { ticket: [] };
+// };
+
+export async function getServerSideProps(context) {
+  const client = buildClient(context);
+  const {
+    data: { currentUser },
+  } = await client.get("/api/users/currentuser");
+
   const { ticketId } = context.query;
   const { data } = await client.get(`/api/tickets/${ticketId}`);
-  return { ticket: data };
-};
+
+  return {
+    props: { ticket: data, currentUser: currentUser },
+  };
+}
+
 export default TicketShow;

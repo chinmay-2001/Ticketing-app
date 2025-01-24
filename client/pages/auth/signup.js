@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Router from "next/router";
 import userRequest from "../../hooks/user-request";
+import useUser from "../../contexts/UserContext";
 
 export default () => {
+  const { assignUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { doRequest, errors } = userRequest({
@@ -16,10 +18,12 @@ export default () => {
   });
   const onSubmit = async (event) => {
     event.preventDefault();
-    await doRequest();
+
+    const { email, id } = await doRequest();
+    assignUser({ email, id });
   };
   return (
-    <form onSubmit={onSubmit}>
+    <form>
       <h1>Sign Up</h1>
       <div className="form-group">
         <label>Email Address</label>
@@ -39,7 +43,9 @@ export default () => {
         />
       </div>
       {errors}
-      <button className="btn btn-primary">Sign up</button>
+      <button className="btn btn-primary" onClick={onSubmit}>
+        Sign up
+      </button>
     </form>
   );
 };

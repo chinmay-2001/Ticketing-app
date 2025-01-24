@@ -16,6 +16,9 @@ spec:
         - name: client
           # image: us.gcr.io/ticketing-dev-420820/client
           image: chinmay200102/client
+          env:
+            - name: REDIS_HOST
+              value: redis-srv
 ---
 apiVersion: v1
 kind: Service

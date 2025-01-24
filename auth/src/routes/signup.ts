@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { getAccessToken, getRefreshToken } from "../services/generateToken";
 
 import jwt from "jsonwebtoken";
 import { validateRequest, BadRequestError } from "@ticketsappchinmay/common";
@@ -29,18 +30,26 @@ router.post(
     await user.save();
 
     // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      process.env.JWT_KEY!
-    );
+    // const userJwt = jwt.sign(
+    //   {
+    //     id: user.id,
+    //     email: user.email,
+    //   },
+    //   process.env.JWT_KEY!
+    // );
+    const payload = { id: user.id, email: user.email };
+    const accessToken = getAccessToken(payload);
+    const refreshToken = getRefreshToken(payload);
 
-    //Store it on session object
-    req.session = { jwt: userJwt };
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      path: "/api/users/refresh-token",
+    });
 
-    res.status(201).send(user);
+    res.cookie("accessToken", accessToken, {});
+
+    res.status(201).send({ user });
   }
 );
 

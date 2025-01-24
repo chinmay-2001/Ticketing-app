@@ -1,5 +1,7 @@
 import Link from "next/link";
-export default ({ currentUser }) => {
+import useUser from "../../contexts/UserContext";
+export default () => {
+  const { currentUser } = useUser();
   const links = [
     !currentUser && { label: "Sign Up", href: "/auth/signup" },
     !currentUser && { label: "Sign In", href: "/auth/signin" },
