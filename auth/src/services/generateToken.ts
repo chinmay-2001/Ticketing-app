@@ -19,5 +19,5 @@ export const getRefreshToken = (payload: object) => {
  */
 
 export const getAccessToken = (payload: object) => {
-  return jwt.sign(payload, accessTokenSecret, { expiresIn: "10s" });
+  return jwt.sign(payload, accessTokenSecret, { expiresIn: "15m" });
 };

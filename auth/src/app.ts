@@ -5,16 +5,27 @@ import { signoutRouter } from "./routes/signout";
 import { signinRouter } from "./routes/signin";
 import { signupRouter } from "./routes/signup";
 import { refreshToken } from "./routes/refreshToken";
+import { googleLogin } from "./routes/googleSignIn";
 import { errorHandler, NotFoundError } from "@ticketsappchinmay/common";
+import passport from "passport";
+import session from "express-session";
+import "./services/auth";
+
 import cors from "cors";
 
-import cookieSession from "cookie-session";
 const cookieParser = require("cookie-parser");
 
 import "express-async-errors";
 
 const app = express();
 const keys = ["dummy-key"];
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret_key",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.set("trust proxy", true);
 app.use(json());
@@ -34,12 +45,15 @@ app.use(
     credentials: true, // Allow cookies
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use(currentUserRouter);
 app.use(refreshToken);
 app.use(signoutRouter);
 app.use(signinRouter);
 app.use(signupRouter);
+app.use(googleLogin);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();

@@ -7,7 +7,7 @@ const createApiClient = (baseURL, headers = {}) => {
     headers,
     withCredentials: true, // Ensure credentials like cookies are sent with the request
   });
-  const { accessToken } = parse(headers.cookie);
+  let { accessToken } = parse(headers.cookie);
 
   // Response Interceptor
   api.interceptors.response.use(
@@ -15,17 +15,26 @@ const createApiClient = (baseURL, headers = {}) => {
     async (error) => {
       if (error.response?.status === 401) {
         try {
-          const { data } = await axios.post(
-            "/api/auth/refresh-token",
+          console.log(headers.cookie);
+          const requestApiToServerWhileInSSR = axios.create({
+            baseURL:
+              "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+            headers: {
+              ...headers,
+              Cookie: headers.cookie || "",
+            },
+            withCredentials: true,
+          });
+          const { data } = await requestApiToServerWhileInSSR.post(
+            "/api/users/refresh-token",
             {},
             { withCredentials: true }
           );
-
           error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+          accessToken = data.accessToken;
           return axios.request(error.config);
         } catch (err) {
           console.error("Refresh token failed", err);
-          window.location.href = "/"; // Redirect to login page
         }
       }
       return Promise.reject(error);

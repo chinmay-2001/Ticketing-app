@@ -15,10 +15,11 @@ const OrderIndex = ({ orders }) => {
 
 export async function getServerSideProps(context) {
   const client = buildClient(context);
+
+  const { data } = await client.get("/api/orders");
   const {
     data: { currentUser },
   } = await client.get("/api/users/currentuser");
-  const { data } = await client.get("/api/orders");
 
   return { props: { orders: data || [], currentUser: currentUser } };
 }

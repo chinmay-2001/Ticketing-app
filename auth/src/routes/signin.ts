@@ -5,6 +5,7 @@ import { validateRequest, BadRequestError } from "@ticketsappchinmay/common";
 import { User } from "../models/user";
 import { Password } from "../services/password";
 import { getAccessToken, getRefreshToken } from "../services/generateToken";
+
 import "express-async-errors";
 const router = express.Router();
 router.post(
@@ -19,6 +20,7 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log(email, password);
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
       throw new BadRequestError("Invalid credentials");
@@ -49,7 +51,8 @@ router.post(
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "strict",
-      path: "/api/users/refresh-token",
+      // path: "/api/users/refresh-token",
+      path: "/",
     });
 
     res.cookie("accessToken", accessToken, {});

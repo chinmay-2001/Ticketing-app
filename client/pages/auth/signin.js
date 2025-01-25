@@ -17,12 +17,27 @@ export default () => {
     onSuccess: () => Router.push("/"),
   });
   const onSubmit = async (event) => {
+    console.log(event);
     event.preventDefault();
-    const { email, id } = await doRequest();
-    assignUser({ email, id });
+    const response = await doRequest({}, {});
+    const { email, id } = response;
+    if (email && id) {
+      assignUser({ email, id });
+    }
+  };
+  const signInGoolge = async (event) => {
+    event.preventDefault();
+    await doRequest(
+      {},
+      {
+        url: "/api/users/google-signin",
+        method: "get",
+        body: { email, password },
+      }
+    );
   };
   return (
-    <form onSubmit={onSubmit}>
+    <form>
       <h1>Sign In</h1>
       <div className="form-group">
         <label>Email Address</label>
@@ -42,7 +57,14 @@ export default () => {
         />
       </div>
       {errors}
-      <button className="btn btn-primary">Sign In</button>
+      <button className="btn btn-primary" onClick={onSubmit}>
+        Sign In
+      </button>
+      <br></br>
+      <br></br>
+      <a className="btn btn-secondary" onClick={(e) => signInGoolge(e)}>
+        Google SignIn
+      </a>
     </form>
   );
 };

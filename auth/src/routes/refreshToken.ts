@@ -2,7 +2,7 @@ import express, { Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user";
 import { getAccessToken } from "../services/generateToken";
-import { BadRequestError, NotAuthorizeError } from "@ticketsappchinmay/common";
+import { BadRequestError } from "@ticketsappchinmay/common";
 import "express-async-errors";
 const router = express.Router();
 router.post("/api/users/refresh-token", async (req: Request, res: Response) => {
@@ -15,7 +15,6 @@ router.post("/api/users/refresh-token", async (req: Request, res: Response) => {
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET!
   );
-
   const user = await User.findById(payload.id);
 
   if (!user) {

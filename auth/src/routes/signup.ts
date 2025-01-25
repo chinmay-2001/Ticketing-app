@@ -44,7 +44,8 @@ router.post(
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "strict",
-      path: "/api/users/refresh-token",
+      // path: "/api/users/refresh-token",
+      path: "/",
     });
 
     res.cookie("accessToken", accessToken, {});
