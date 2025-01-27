@@ -32,11 +32,13 @@ const landingPage = ({ tickets }) => {
 };
 
 export async function getServerSideProps(context) {
+  console.log("her");
   const client = buildClient(context);
   const {
     data: { currentUser },
   } = await client.get("/api/users/currentuser");
   const { data } = await client.get("/api/tickets");
+  console.log(currentUser);
   return {
     props: { tickets: data || [], currentUser: currentUser },
   };

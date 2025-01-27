@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import { parse } from "cookie";
+import https from "https";
 
 export default ({ url, method, body, onSuccess }) => {
   const api = axios.create({
     baseURL: "/", //base URL
     withCredentials: true,
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false, // This allows self-signed certificates
+    }),
   });
 
   const [errors, setErrors] = useState(null);
@@ -23,7 +27,12 @@ export default ({ url, method, body, onSuccess }) => {
             const { data } = await axios.post(
               "/api/users/refresh-token",
               {},
-              { withCredentials: true }
+              {
+                withCredentials: true,
+                httpsAgent: new https.Agent({
+                  rejectUnauthorized: false, // This allows self-signed certificates
+                }),
+              }
             );
 
             error.config.headers[

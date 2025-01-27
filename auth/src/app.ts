@@ -18,19 +18,23 @@ const cookieParser = require("cookie-parser");
 import "express-async-errors";
 
 const app = express();
-const keys = ["dummy-key"];
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "secret_key",
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      secure: true, // Use HTTPS
+      httpOnly: true, // Prevent JavaScript access
+      sameSite: "none", // For cross-origin cookies
+    },
   })
 );
 
 app.set("trust proxy", true);
 app.use(json());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://ticketing.dev/");
+  res.header("Access-Control-Allow-Origin", "https://ticketing.dev");
   res.header("Access-Control-Allow-Headers", "Authorization, Content-Type");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Credentials", "true"); // If using cookies
@@ -41,7 +45,8 @@ app.use((req, res, next) => {
 });
 app.use(
   cors({
-    origin: "https://ticketing.dev/", // Frontend URL
+    origin: "https://ticketing.dev", // Frontend URL
+    methods: ["GET", "POST", "OPTIONS"],
     credentials: true, // Allow cookies
   })
 );

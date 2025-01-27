@@ -27,14 +27,7 @@ export default () => {
   };
   const signInGoolge = async (event) => {
     event.preventDefault();
-    await doRequest(
-      {},
-      {
-        url: "/api/users/google-signin",
-        method: "get",
-        body: { email, password },
-      }
-    );
+    window.location.href = "/api/users/google-signin";
   };
   return (
     <form>
